@@ -1,7 +1,7 @@
 services:
   dns:
     restart: always
-    image: jasjeev4/rpi-dnsmasq
+    image: jasjeev4/rpi-dnsmasq:latest
     container_name: dnsmasq
     volumes:
       - ./config/dnsmasq.conf:/etc/dnsmasq.conf

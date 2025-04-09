@@ -2,6 +2,7 @@ services:
   samba:
     image: ghcr.io/servercontainers/samba:latest
     restart: always
+    container_name: samba
     cap_add:
       - CAP_NET_ADMIN
     environment:
