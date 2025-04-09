@@ -28,7 +28,7 @@ echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
 echo "Resetting permissions (if needed)..."
 sudo chown -R $USER:$USER ~/
 
-echo "Optionally removing Docker and Git (comment out if not needed)..."
+# echo "Optionally removing Docker and Git (comment out if not needed)..."
 # sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin git
 # sudo apt autoremove -y
 
