@@ -1,0 +1,15 @@
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./config/:/etc/nginx/conf.d/
+      - ./site-content:/var/www/html
+    ports:
+      - 80:80
+    networks:
+      private_lab:
+        ipv4_address: 192.168.100.40
+
+networks:
+  private_lab:
+    external: true

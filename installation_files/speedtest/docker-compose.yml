@@ -1,0 +1,16 @@
+services:
+  speedtest:
+    container_name: openspeedtest
+    ports:
+        - 3000:3000
+        - 3001:3001
+    networks:
+      private_lab:
+        ipv4_address: 192.168.100.50
+    image: openspeedtest/latest
+    restart: unless-stopped
+
+
+networks:
+  private_lab:
+    external: true

@@ -1,0 +1,18 @@
+services:
+  dns:
+    restart: always
+    image: jasjeev4/rpi-dnsmasq
+    container_name: dnsmasq
+    volumes:
+      - /home/pi/lab/dnsmasq/config/dnsmasq.conf:/etc/dnsmasq.conf
+    ports:
+      - "53:53"
+    cap_add:
+      - NET_ADMIN
+    networks:
+      private_lab:
+        ipv4_address: 192.168.100.10
+
+networks:
+  private_lab:
+    external: true

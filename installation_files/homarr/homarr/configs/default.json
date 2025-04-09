@@ -1,0 +1,563 @@
+{
+  "schemaVersion": 2,
+  "configProperties": {
+    "name": "default"
+  },
+  "categories": [],
+  "wrappers": [
+    {
+      "id": "default",
+      "position": 0
+    }
+  ],
+  "apps": [
+    {
+      "id": "5df743d9-5cb1-457c-85d2-64ff86855652",
+      "name": "Documentation",
+      "url": "https://homarr.dev",
+      "behaviour": {
+        "onClickUrl": "https://homarr.dev",
+        "externalUrl": "https://homarr.dev",
+        "isOpeningNewTab": true
+      },
+      "network": {
+        "enabledStatusChecker": false,
+        "statusCodes": [
+          "200"
+        ]
+      },
+      "appearance": {
+        "iconUrl": "/imgs/logo/logo.png",
+        "appNameStatus": "normal",
+        "positionAppName": "column",
+        "lineClampAppName": 1,
+        "appNameFontSize": 16
+      },
+      "integration": {
+        "type": null,
+        "properties": []
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "md": {
+          "location": {
+            "x": 5,
+            "y": 1
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "sm": {
+          "location": {
+            "x": 0,
+            "y": 1
+          },
+          "size": {
+            "width": 1,
+            "height": 2
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 8,
+            "y": 1
+          },
+          "size": {
+            "width": 2,
+            "height": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "47af36c0-47c1-4e5b-bfc7-ad645ee6a330",
+      "name": "Contribute",
+      "url": "https://github.com/ajnart/homarr",
+      "behaviour": {
+        "onClickUrl": "https://github.com/ajnart/homarr",
+        "externalUrl": "https://github.com/ajnart/homarr",
+        "isOpeningNewTab": true,
+        "tooltipDescription": ""
+      },
+      "network": {
+        "enabledStatusChecker": false,
+        "statusCodes": []
+      },
+      "appearance": {
+        "iconUrl": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/github.png",
+        "appNameStatus": "normal",
+        "positionAppName": "row-reverse",
+        "lineClampAppName": 2,
+        "appNameFontSize": 16
+      },
+      "integration": {
+        "type": null,
+        "properties": []
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "md": {
+          "location": {
+            "x": 3,
+            "y": 2
+          },
+          "size": {
+            "width": 2,
+            "height": 1
+          }
+        },
+        "sm": {
+          "location": {
+            "x": 1,
+            "y": 3
+          },
+          "size": {
+            "width": 2,
+            "height": 1
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 8,
+            "y": 3
+          },
+          "size": {
+            "width": 2,
+            "height": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "47af36c0-47c1-4e5b-bfc7-ad645ee6a337",
+      "name": "Discord",
+      "url": "https://discord.com/invite/aCsmEV5RgA",
+      "behaviour": {
+        "onClickUrl": "https://discord.com/invite/aCsmEV5RgA",
+        "isOpeningNewTab": true,
+        "externalUrl": "https://discord.com/invite/aCsmEV5RgA",
+        "tooltipDescription": "Join our Discord server! We're waiting for your ideas and feedback. "
+      },
+      "network": {
+        "enabledStatusChecker": false,
+        "statusCodes": [
+          "200"
+        ]
+      },
+      "appearance": {
+        "iconUrl": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/discord.png",
+        "appNameStatus": "normal",
+        "positionAppName": "row-reverse",
+        "lineClampAppName": 1,
+        "appNameFontSize": 16
+      },
+      "integration": {
+        "type": null,
+        "properties": []
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "md": {
+          "location": {
+            "x": 3,
+            "y": 1
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "sm": {
+          "location": {
+            "x": 1,
+            "y": 4
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 8,
+            "y": 4
+          },
+          "size": {
+            "width": 2,
+            "height": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "22533e67-35b2-447f-8cb9-e0c4df66ac83",
+      "name": "homarr",
+      "url": "http://localhost:7575",
+      "appearance": {
+        "iconUrl": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/homarr.svg",
+        "appNameStatus": "normal",
+        "positionAppName": "column",
+        "lineClampAppName": 1,
+        "appNameFontSize": 16
+      },
+      "network": {
+        "enabledStatusChecker": true,
+        "statusCodes": [
+          "200",
+          "301",
+          "302",
+          "304",
+          "307",
+          "308"
+        ],
+        "okStatus": [
+          200,
+          301,
+          302,
+          304,
+          307,
+          308
+        ]
+      },
+      "behaviour": {
+        "isOpeningNewTab": true,
+        "externalUrl": "http://localhost:7575"
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {},
+      "integration": {
+        "type": null,
+        "properties": []
+      }
+    },
+    {
+      "id": "f14bdac4-d4c0-486e-8b5a-4923ff2fc095",
+      "name": "affectionate_poincare",
+      "url": "http://localhost",
+      "appearance": {
+        "iconUrl": "/public/imgs/logo/logo.svg",
+        "appNameStatus": "normal",
+        "positionAppName": "column",
+        "lineClampAppName": 1,
+        "appNameFontSize": 16
+      },
+      "network": {
+        "enabledStatusChecker": true,
+        "statusCodes": [
+          "200",
+          "301",
+          "302",
+          "304",
+          "307",
+          "308"
+        ],
+        "okStatus": [
+          200,
+          301,
+          302,
+          304,
+          307,
+          308
+        ]
+      },
+      "behaviour": {
+        "isOpeningNewTab": true,
+        "externalUrl": "http://localhost"
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {},
+      "integration": {
+        "type": null,
+        "properties": []
+      }
+    }
+  ],
+  "widgets": [
+    {
+      "id": "971aa859-8570-49a1-8d34-dd5c7b3638d1",
+      "type": "date",
+      "properties": {
+        "display24HourFormat": true,
+        "dateFormat": "DD/MM/YYYY",
+        "enableTimezone": false,
+        "timezoneLocation": {
+          "name": "Paris",
+          "latitude": 48.85341,
+          "longitude": 2.3488
+        },
+        "titleState": "city",
+        "timezone": "Europe/Zurich",
+        "customTitle": "Lucerne"
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "sm": {
+          "location": {
+            "x": 1,
+            "y": 0
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "md": {
+          "location": {
+            "x": 4,
+            "y": 0
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "width": 2,
+            "height": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "e3004052-6b83-480e-b458-56e8ccdca5f0",
+      "type": "weather",
+      "properties": {
+        "displayInFahrenheit": false,
+        "location": {
+          "name": "Lucerne",
+          "latitude": 47.05048,
+          "longitude": 8.30635
+        },
+        "displayCityName": true,
+        "displayWeekly": true,
+        "forecastDays": 5
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "md": {
+          "location": {
+            "x": 5,
+            "y": 0
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "sm": {
+          "location": {
+            "x": 2,
+            "y": 0
+          },
+          "size": {
+            "width": 1,
+            "height": 1
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "width": 4,
+            "height": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "9a265fde-98c7-4738-b0a4-a6bb7830a9c9",
+      "type": "health-monitoring",
+      "properties": {
+        "fahrenheit": true,
+        "cpu": true,
+        "memory": true,
+        "fileSystem": true,
+        "defaultTabState": "cluster",
+        "node": "",
+        "defaultViewState": "none",
+        "summary": true,
+        "showNode": true,
+        "showVM": true,
+        "showLXCs": true,
+        "showStorage": true,
+        "sectionIndicatorColor": "all",
+        "ignoreCert": true
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "sm": {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "width": 2,
+            "height": 2
+          }
+        },
+        "md": {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "width": 2,
+            "height": 2
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 4,
+            "y": 4
+          },
+          "size": {
+            "width": 2,
+            "height": 2
+          }
+        }
+      }
+    },
+    {
+      "id": "117f6ada-3614-47d5-bf72-e29466c9fac8",
+      "type": "rss",
+      "properties": {
+        "rssFeedUrl": [
+          "https://www.heise.de/security/Alerts/feed.xml"
+        ],
+        "refreshInterval": 30,
+        "dangerousAllowSanitizedItemContent": true,
+        "textLinesClamp": 5,
+        "sortByPublishDateAscending": true,
+        "sortPostsWithoutPublishDateToTheTop": false,
+        "maximumAmountOfPosts": 20
+      },
+      "area": {
+        "type": "wrapper",
+        "properties": {
+          "id": "default"
+        }
+      },
+      "shape": {
+        "sm": {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "width": 2,
+            "height": 2
+          }
+        },
+        "md": {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "size": {
+            "width": 2,
+            "height": 2
+          }
+        },
+        "lg": {
+          "location": {
+            "x": 4,
+            "y": 0
+          },
+          "size": {
+            "width": 4,
+            "height": 4
+          }
+        }
+      }
+    }
+  ],
+  "settings": {
+    "common": {
+      "searchEngine": {
+        "type": "google",
+        "properties": {}
+      }
+    },
+    "customization": {
+      "layout": {
+        "enabledLeftSidebar": false,
+        "enabledRightSidebar": false,
+        "enabledDocker": false,
+        "enabledPing": false,
+        "enabledSearchbar": true
+      },
+      "pageTitle": "Homarr ⭐️",
+      "logoImageUrl": "/imgs/logo/logo.png",
+      "faviconUrl": "/imgs/favicon/favicon-squared.png",
+      "backgroundImageUrl": "",
+      "customCss": "",
+      "colors": {
+        "primary": "blue",
+        "secondary": "teal",
+        "shade": 7
+      },
+      "appOpacity": 100,
+      "gridstack": {
+        "columnCountSmall": 3,
+        "columnCountMedium": 6,
+        "columnCountLarge": 10
+      },
+      "backgroundImageAttachment": "fixed",
+      "backgroundImageRepeat": "no-repeat",
+      "backgroundImageSize": "cover",
+      "metaTitle": ""
+    },
+    "access": {
+      "allowGuests": false
+    }
+  }
+}

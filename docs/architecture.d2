@@ -1,0 +1,75 @@
+PublicDns: {
+  label: "Google DNS (8.8.8.8/8.8.4.4)"
+}
+  
+Lab: {
+  # Define a grid layout with 3 rows (bottom to top)
+  grid-rows: 3
+
+  Container: {
+    grid-rows: 1
+
+    dnsmasq: {
+      label: "DNS\n—————\nDnsmasq\nIP 192.168.100.10"
+      shape: rectangle
+    }
+
+    homarr: {
+      label: "Dashboarding & Docker Management\n—————\nHomarr\nIP 192.168.100.20\nhttp://homarr.lab:7575"
+      shape: rectangle
+    }
+
+    samba: {
+      label: "Fileshare\n—————\nSamba\nIP 192.168.100.30\nfile://samba.lab/schnuppi"
+      shape: rectangle
+    }
+
+    nginx: {
+      label: "Web Server\n—————\nNginx\nIP 192.168.100.40\nhttp://nginx.lab:80"
+      shape: rectangle
+    }
+
+    speedtest: {
+      label: "Speedtest\n—————\nSpeedtest\nIP 192.168.100.50\nhttps://speedtest.lab:3000 | https://speedtest.lab:3001"
+      shape: rectangle
+    }
+  }
+
+  Docker: {
+    label: "Docker"
+    shape: rectangle
+    width: 400
+  }
+
+  RaspberryPi: {
+    label: "Raspberry Pi 5"
+    shape: rectangle
+    width: 400
+  }
+
+  # Define structure with proper order
+  Docker -> Container.dnsmasq: "runs"
+  Docker -> Container.homarr: "runs"
+  Docker -> Container.samba: "runs"
+  Docker -> Container.nginx: "runs"
+  Docker -> Container.speedtest: "runs"
+
+  # Port connections from Raspberry Pi to each container
+  RaspberryPi -> Container.dnsmasq: "connects on port 53"
+  RaspberryPi -> Container.homarr: "connects on port 7575"
+  RaspberryPi -> Container.samba: "connects on port 445"
+  RaspberryPi -> Container.nginx: "connects on port 80"
+  RaspberryPi -> Container.speedtest: "connects on port 3000 / 3001"
+
+  # Port connections from Homarr
+  Container.homarr -> Container.dnsmasq: "manages"
+  Container.homarr -> Container.samba: "manages"
+  Container.homarr -> Container.nginx: "manages"
+  Container.homarr -> Container.speedtest: "manages"
+}
+
+Lab.Container.dnsmasq -> PublicDns: Lookup
+
+PublicDns: {
+  label: "Google DNS (8.8.8.8/8.8.4.4)"
+}

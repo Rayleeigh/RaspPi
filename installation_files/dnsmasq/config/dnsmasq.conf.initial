@@ -1,0 +1,10 @@
+# Log DNS queries
+log-queries
+# Listen on fixed ip address
+listen-address=192.168.100.10
+# Configure DNS caching
+cache-size=1000
+# Set DNS forwarders to Google DNS servers
+server=8.8.8.8
+server=8.8.4.4
+# Custom DNS entries

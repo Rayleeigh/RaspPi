@@ -1,0 +1,39 @@
+services:
+  samba:
+    image: ghcr.io/servercontainers/samba:latest
+    restart: always
+    cap_add:
+      - CAP_NET_ADMIN
+    environment:
+      MODEL: 'TimeCapsule'
+      AVAHI_NAME: samba.lab
+
+      SAMBA_CONF_LOG_LEVEL: 3
+
+      GROUP_SCHNUPPI: schnuppi
+
+      ACCOUNT_SCHNUPPI: 1234
+      UID_SCHNUPPI: 1000
+      GROUPS_SCHNUPPI: schnuppi
+
+      SAMBA_VOLUME_CONFIG_<SHARENAME>: |
+        [<SHARETITLE>]
+          path = /shares/schnuppi
+          valid users = schnuppi #Remove if not using
+          guest ok = no
+          browseable = yes
+          read only = no
+
+    volumes:
+      - ./samba_share_data:/external/samba_share_data
+      
+      - /external/samba_share_data:/shares/schnuppi_share
+
+    networks:
+      provate_lab:
+        ipv4_address: 192.168.100.30
+
+
+networks:
+  private_lab:
+    external: true
