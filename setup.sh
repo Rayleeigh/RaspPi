@@ -31,8 +31,7 @@ sudo docker pull nginx:1.27.4
 sudo docker pull ghcr.io/servercontainers/samba:latest
 sudo docker pull openspeedtest/latest:v2.0.6
 
-sudo echo "nameserver 192.168.100.10" | sudo tee /etc/resolvconf/resolv.conf.d/base
-sudo resolvconf -u
+echo "nameserver 192.168.100.10" | sudo tee /etc/resolv.conf
 
 sudo chmod -R 755 /mnt/schnuppi
 sudo chown -R 1000:1000 /mnt/schnuppi
