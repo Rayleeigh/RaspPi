@@ -20,7 +20,9 @@ echo "Removing lab directory..."
 rm -rf ~/lab
 
 echo "Removing mounted schnuppi directory..."
-rm -rf /mnt/schnuppi
+sudo umount /mnt/schnuppi 2>/dev/null
+sudo chmod -R u+w /mnt/schnuppi
+sudo rm -rf /mnt/schnuppi
 
 echo "Restoring default resolv.conf (DNS)..."
 echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
