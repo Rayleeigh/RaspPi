@@ -178,7 +178,7 @@ Below is a diagram of the system architecture using `d2`: [architecture.d2](./do
    ```sh
    curl -sSL https://get.docker.com | sh
    ```
-   
+
 3. Add the current user to the Docker group:
    ```sh
    sudo usermod -aG docker $USER
