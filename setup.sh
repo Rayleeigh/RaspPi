@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir -p ~/lab
+sudo mkdir -p /mnt/schnuppi
 
 sudo apt update && sudo apt upgrade -y
 
@@ -16,4 +17,8 @@ git clone https://github.com/Rayleeigh/RaspPi ~/
 
 mv ~/RaspPi/installation_files/* ~/lab
 
-sed -i "s|<SECRET_ENCRYPTION_KEY>|$(openssl rand -base64 32)|" ~/lab/homarr/docker-compose.yml
+sed -i "s|<SECRET_ENCRYPTION_KEY>|$(openssl rand -hex 32)|" ~/lab/homarr/docker-compose.yml
+
+rm ~/lab/dnsmasq/config/dnsmasq.conf.initial ~/lab/dnsmasq/config/dnsmasq.conf.template
+
+mv ~/lab/dnsmasq/config/dnsmasq.conf.final ~/lab/dnsmasq/config/dnsmasq.conf

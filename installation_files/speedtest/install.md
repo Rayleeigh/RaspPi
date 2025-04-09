@@ -11,7 +11,7 @@
    [installation_files/speedtest/docker-compose.yml](/installation_files/speedtest/docker-compose.yml)
 
 
-3. Run the Speedtest container from $HOME/lab/vaultwarden with a dedicated IP:
+3. Run the Speedtest container from $HOME/lab/speedtest with a dedicated IP:
    ```sh
    docker compose up -d
    ```
