@@ -4,9 +4,9 @@ services:
     image: jasjeev4/rpi-dnsmasq
     container_name: dnsmasq
     volumes:
-      - /home/pi/lab/dnsmasq/config/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./config/dnsmasq.conf:/etc/dnsmasq.conf
     ports:
-      - "53:53"
+      - 53:53
     cap_add:
       - NET_ADMIN
     networks:

@@ -10,7 +10,7 @@ services:
     environment:
       - SECRET_ENCRYPTION_KEY=<SECRET_ENCRYPTION_KEY>
     ports:
-      - '7575:7575'
+      - 7575:7575
     networks:
       private_lab:
         ipv4_address: 192.168.100.20

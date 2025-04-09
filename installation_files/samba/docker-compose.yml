@@ -5,7 +5,7 @@ services:
     cap_add:
       - CAP_NET_ADMIN
     environment:
-      MODEL: 'TimeCapsule'
+      MODEL: "TimeCapsule"
       AVAHI_NAME: samba.lab
 
       SAMBA_CONF_LOG_LEVEL: 3
@@ -26,13 +26,12 @@ services:
 
     volumes:
       - ./samba_share_data:/external/samba_share_data
-      
+
       - /external/samba_share_data:/shares/schnuppi_share
 
     networks:
       provate_lab:
         ipv4_address: 192.168.100.30
-
 
 networks:
   private_lab:
