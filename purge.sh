@@ -1,37 +1,23 @@
 #!/bin/bash
 
-echo "Stopping Docker containers..."
-docker ps -q | xargs -r docker stop
+echo "Stopping Docker stacks..."
+(cd ~/lab/homarr && sudo docker compose down)
+(cd ~/lab/samba && sudo docker compose down)
+(cd ~/lab/nginx && sudo docker compose down)
+(cd ~/lab/speedtest && sudo docker compose down)
+(cd ~/lab/dnsmasq && sudo docker compose down)
 
-echo "Removing Docker containers..."
-docker ps -aq | xargs -r docker rm
-
-echo "Removing Docker images..."
-docker rmi ghcr.io/ajnart/homarr:0.15.10 \
-           jasjeev4/rpi-dnsmasq:latest \
-           nginx:1.27.4 \
-           ghcr.io/servercontainers/samba:latest \
-           openspeedtest/latest:v2.0.6 || true
-
-echo "Removing Docker network..."
-docker network rm private_lab || true
+echo "Pruning Docker..."
+sudo docker system prune --all --volumes
 
 echo "Removing lab directory..."
 rm -rf ~/lab
 
 echo "Removing mounted schnuppi directory..."
-sudo chmod -R u+w /mnt/schnuppi
+sudo umount /mnt/schnuppi
 sudo rm -rf /mnt/schnuppi
-
 
 echo "Restoring default resolv.conf (DNS)..."
 echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
-
-echo "Resetting permissions (if needed)..."
-sudo chown -R $USER:$USER ~/
-
-# echo "Optionally removing Docker and Git (comment out if not needed)..."
-# sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin git
-# sudo apt autoremove -y
 
 echo "Purge complete. Reboot recommended."
