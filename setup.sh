@@ -1,14 +1,13 @@
 #!/bin/bash
 
-echo "Checking if Docker is installed..."
-if ! command -v docker &> /dev/null
-then
+if [ ! -x "/usr/bin/docker" ]; then
     echo "Docker not found. Installing Docker..."
     sudo curl -sSL https://get.docker.com | sh
     sudo usermod -aG docker $USER
 else
     echo "Docker is already installed."
 fi
+
 
 echo "Checking if Docker network 'private_lab' exists..."
 if ! sudo docker network inspect private_lab &> /dev/null
