@@ -34,7 +34,7 @@ sudo docker pull openspeedtest/latest:v2.0.6
 echo "nameserver 192.168.100.10" | sudo tee /etc/resolv.conf
 
 sudo chmod -R 755 /mnt/schnuppi
-sudo chown -R 1000:1000 /mnt/schnuppi
+sudo chown -R $USER:$USER /mnt/schnuppi
 
 sudo find . -type f -exec sudo chmod 655 {} +
 sudo find . -type d -exec sudo chmod 755 {} +
