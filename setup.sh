@@ -13,9 +13,11 @@ sudo usermod -aG docker $USER
 
 docker network create --subnet=192.168.100.0/24 private_lab
 
-git clone https://github.com/Rayleeigh/RaspPi ~/
+git clone https://github.com/Rayleeigh/RaspPi ~/RaspPi
 
 mv ~/RaspPi/installation_files/* ~/lab
+
+rm -rf ~/RaspPi
 
 sed -i "s|<SECRET_ENCRYPTION_KEY>|$(openssl rand -hex 32)|" ~/lab/homarr/docker-compose.yml
 

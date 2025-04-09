@@ -30,7 +30,7 @@ services:
       - /external/samba_share_data:/shares/schnuppi_share
 
     networks:
-      provate_lab:
+      private_lab:
         ipv4_address: 192.168.100.30
 
 networks:
