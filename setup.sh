@@ -77,7 +77,7 @@ echo "Starting Docker containers..."
 (cd ~/lab/dnsmasq && sudo docker compose up -d)
 
 echo "Mounting the Samba share..."
-sudo mount -t cifs //samba.local/shares/schnuppi_share /mnt/schnuppi -o user=schnuppi,pass=1234
+sudo mount -t cifs //samba.lab/shares/schnuppi_share /mnt/schnuppi -o user=schnuppi,pass=1234
 
 echo "Rebooting the system..."
 sudo reboot
