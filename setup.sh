@@ -45,4 +45,6 @@ sudo find . -type d -exec sudo chmod 755 {} +
 (cd ~/lab/speedtest && sudo docker compose up -d)
 (cd ~/lab/dnsmasq && sudo docker compose up -d)
 
+sudo mount -t cifs //samba.local/shares/schnuppi_share /mnt/schnuppi -o user=schnuppi,pass=1234
+
 sudo reboot
