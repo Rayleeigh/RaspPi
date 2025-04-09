@@ -8,7 +8,7 @@ echo "Stopping Docker stacks..."
 (cd ~/lab/dnsmasq && sudo docker compose down)
 
 echo "Pruning Docker..."
-sudo docker system prune --all --volumes
+sudo docker system prune --all --volumes -f
 
 echo "Removing lab directory..."
 sudo rm -rf ~/lab
