@@ -79,5 +79,6 @@ echo "Starting Docker containers..."
 echo "Mounting the Samba share..."
 sudo mount -t cifs //samba.lab/shares/schnuppi_share /mnt/schnuppi -o user=schnuppi,pass=1234
 
-echo "Rebooting the system..."
+echo "Rebooting the system in 20 sec..."
+sleep 20
 sudo reboot
