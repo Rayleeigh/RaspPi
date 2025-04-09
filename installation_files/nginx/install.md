@@ -9,11 +9,11 @@
    ```
 
 2. Create the docker compose file for our homarr container in $HOME/lab/nginx:
-   [installation_files/nginx/docker-compose.yml](./installation_files/nginx/docker-compose.yml)
+   [installation_files/nginx/docker-compose.yml](/installation_files/nginx/docker-compose.yml)
 
 3. Copy nginx config and site files into $HOME/lab/nginx/config and $HOME/lab/nginx/site-content:
-   [nginx.conf template](./installation_files/nginx/config/nginx.conf)
-   [web site template](./installation_files/nginx/site-content/*)
+   [nginx.conf template](/installation_files/nginx/config/nginx.conf)
+   [web site template](/installation_files/nginx/site-content/)
 
 4. Run the Nginx container from $HOME/lab/nginx with a dedicated IP:
    ```sh

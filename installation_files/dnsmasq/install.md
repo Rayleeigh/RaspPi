@@ -1,6 +1,6 @@
 # Installing Dnsmasq in a Docker Container
 
-Our Dnsmasq container will have *192.168.100.10* as ip address. The initial configuration will be mounted into the container from the host and can be found here: [dnsmasq.config.initial](./installation_files/dnsmasq/config/dnsmasq.conf.initial)
+Our Dnsmasq container will have *192.168.100.10* as ip address. The initial configuration will be mounted into the container from the host and can be found here: [dnsmasq.config.initial](/installation_files/dnsmasq/config/dnsmasq.conf.initial)
 
 1. Create Dnsmasq folder and got into it:
    ```bash
@@ -10,10 +10,10 @@ Our Dnsmasq container will have *192.168.100.10* as ip address. The initial conf
    ```
 
 2. Create the docker compose file for our dnsmasq container in $HOME/lab/dnsmasq:
-   [installation_files/dnsmasq/docker-compose.yml](./installation_files/dnsmasq/docker-compose.yml)
+   [installation_files/dnsmasq/docker-compose.yml](/installation_files/dnsmasq/docker-compose.yml)
 
 3. Create Dnsmasq config file in $HOME/lab/dnsmasq/config:
-   [dnsmasq.config template](./installation_files/dnsmasq/config/dnsmasq.conf.initial)
+   [dnsmasq.config template](/installation_files/dnsmasq/config/dnsmasq.conf.initial)
 
 4. Run docker compose command from $HOME/lab/dnsmasq to start the dnsmasq container:
    ```bash
@@ -22,7 +22,7 @@ Our Dnsmasq container will have *192.168.100.10* as ip address. The initial conf
 
 5. Adjust local dns config to use dnsmasq
    ```bash
-   sudo nano /etc/dhcpcd.conf 
+   sudo nano /etc/dhcpcd.conf
    ```
 
    Add the following

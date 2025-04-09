@@ -8,7 +8,7 @@
    ```
 
 2. Create the docker compose file for our samba container in $HOME/lab/samba:
-   [installation_files/samba/docker-compose.yml](./installation_files/samba/docker-compose.yml)
+   [installation_files/samba/docker-compose.yml](/installation_files/samba/docker-compose.yml)
 
 3. Run the Samba container from $HOME/lab/samba with a dedicated IP:
    ```sh

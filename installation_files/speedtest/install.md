@@ -8,7 +8,7 @@
 
 
 2. Create the docker compose file for our Speedtest container in $HOME/lab/speedtest:
-   [installation_files/speedtest/docker-compose.yml](./installation_files/speedtest/docker-compose.yml)
+   [installation_files/speedtest/docker-compose.yml](/installation_files/speedtest/docker-compose.yml)
 
 
 3. Run the Speedtest container from $HOME/lab/vaultwarden with a dedicated IP:

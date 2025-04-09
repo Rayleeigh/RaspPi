@@ -7,7 +7,7 @@
    ```
 
 2. Create the docker compose file for our homarr container in $HOME/lab/homarr:
-   [installation_files/homarr/docker-compose.yml](./installation_files/homarr/docker-compose.yml)
+   [installation_files/homarr/docker-compose.yml](/installation_files/homarr/docker-compose.yml)
 
 3. Generate secret encryption key and set it in docker-compose.yml:
    ```sh
@@ -17,7 +17,7 @@
    Place the generated key in docker-compose.yml instead of <SECRET_ENCRYPTION_KEY>.
 
 4. Copy Homarr config files in $HOME/lab/homarr/homarr:
-   [homarr config template](./installation_files/homarr/homarr)
+   [homarr config template](/installation_files/homarr/homarr)
 
 5. Run the Homarr container from $HOME/lab/homarr with a dedicated IP:
    ```sh
