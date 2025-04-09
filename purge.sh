@@ -11,7 +11,7 @@ echo "Pruning Docker..."
 sudo docker system prune --all --volumes
 
 echo "Removing lab directory..."
-rm -rf ~/lab
+sudo rm -rf ~/lab
 
 echo "Removing mounted schnuppi directory..."
 sudo umount /mnt/schnuppi
