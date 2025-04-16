@@ -1,0 +1,76 @@
+
+
+---
+
+## 📅 **Day 1: Afternoon (13:00–16:30)**
+
+| **Time**       | **Module**                                         | **Details**                                                                 |
+|----------------|----------------------------------------------------|------------------------------------------------------------------------------|
+| **13:00–13:30** | 🗣️ **Introduction**                                 | - Course leader introduces themselves<br>- Each Schnupperlehrling introduces themselves (name, interests)<br>- Ask: “Have you used Docker, Raspberry Pi, or Linux before?”<br>- Play a fun **Kahoot quiz** (topics: internet, DNS, hacking, AI, etc.) |
+| **13:30–13:45** | 🧭 **Schedule & Goal Overview**                     | - Explain the 1.5-day schedule<br>- Talk about the end goal: *"You will build your own self-hosted home server!"*<br>- Show them what they’ll achieve with a sneak peek at the Homarr dashboard |
+| **13:45–14:00** | 🖐️ **Handout & Setup**                              | - Hand out the Raspberry Pis (or assign to VM if applicable)<br>- Make sure they can connect to their device (screen/keyboard or SSH) |
+| **14:00–14:15** | 📦 **What is Docker & Compose?** *(Theory)*         | - Simple visual metaphor: container = “mini PC in a box”<br>- Explain how multiple services can run on one Pi with Docker Compose |
+| **14:15–14:45** | 🛠️ **Deploy HOMARR** *(Instruction + Practical)*     | - Show Compose YAML structure<br>- Students deploy Homarr using `docker-compose up -d`<br>- Open in browser, pin a few example tiles |
+| **14:45–15:00** | 🌐 **What is DNS?** *(Theory)*                       | - Use a **mailbox analogy**: DNS = address book of the internet<br>- Explain what a local DNS resolver does |
+| **15:00–15:30** | 🛠️ **Deploy DNSMASQ** *(Instruction + Practical)*    | - Show config file basics (template editing)<br>- Students deploy it<br>- Test with `nslookup` or browser to see it resolving |
+| **15:30–15:50** | 🧰 **Service Panel Setup** *(Mini Task)*             | - Students pin Homarr entries for DNSMASQ and Homarr itself (meta 😄)<br>- Help anyone who's behind |
+| **15:50–16:30** | 🧵 **Wrap-up + Sneak Peek Day 2**                    | - Recap learnings with each student sharing one new thing<br>- Tease tomorrow’s topics: NGINX, Samba, Speedtest, Passwords, and AI! |
+
+---
+
+## 📅 **Day 2: Full Day (08:00–16:30)**
+
+### 🕗 **08:00–10:00 | NGINX**
+| **Step**          | **Details**                                                                 |
+|-------------------|------------------------------------------------------------------------------|
+| 🔹 **Theory**      | - Explain web servers and reverse proxies<br>- Simple demo: “What happens when you go to a website?” |
+| 🔹 **Instruction** | - Show directory structure with `nginx.conf` and `site-content/` |
+| 🔹 **Deploying**   | - Students run the NGINX container<br>- Open the page in browser<br>- Optional: modify HTML and refresh |
+
+---
+
+### 🕙 **10:00–12:00 | SAMBA**
+| **Step**          | **Details**                                                                 |
+|-------------------|------------------------------------------------------------------------------|
+| 🔹 **Theory**      | - What is a file share? Use school printers or public folders as analogy |
+| 🔹 **Instruction** | - Explain Samba configs (users, paths)<br>- Login and password setup |
+| 🔹 **Deploying**   | - Students run the Samba container<br>- Connect from Windows via `\\<Pi-IP>\share` or Linux/CLI |
+
+🧃 **12:00–13:00 | Lunch Break**
+
+---
+
+### 🕐 **13:00–14:30 | Speedtest + Vaultwarden**
+#### ⏱️ SPEEDTEST
+
+| **Step**          | **Details**                                                                 |
+|-------------------|------------------------------------------------------------------------------|
+| 🔹 **Theory**      | - Talk about internet speed (ping, download, upload) |
+| 🔹 **Instruction** | - Open compose file, explain UI |
+| 🔹 **Deploying**   | - Students deploy and test their network speed via browser |
+
+#### 🔐 VAULTWARDEN
+
+| **Step**          | **Details**                                                                 |
+|-------------------|------------------------------------------------------------------------------|
+| 🔹 **Theory**      | - Talk about password reuse and breaches<br>- Simple “hacker” roleplay: how fast can you guess? |
+| 🔹 **Instruction** | - Show setup in browser<br>- Register a new user |
+| 🔹 **Deploying**   | - Students launch Vaultwarden and register, store a fake password or note |
+
+---
+
+### 🧠 **14:30–16:00 | Open WebUI + Ollama (AI Chatbot)**
+
+| **Step**          | **Details**                                                                 |
+|-------------------|------------------------------------------------------------------------------|
+| 🔹 **Theory**      | - What is AI? What are local vs cloud models?<br>- Discuss ChatGPT vs LLaMA |
+| 🔹 **Instruction** | - Show docker-compose with Ollama + Open WebUI<br>- Explain model download step |
+| 🔹 **Deploying**   | - Students run it and open the chat UI<br>- Try fun prompts like: “Tell me a joke” or “Explain the internet like I’m 5” |
+
+---
+
+### 🎉 **16:00–16:30 | Final Wrap-up & Certificates**
+| **Details**                                                               |
+|---------------------------------------------------------------------------|
+| - Go around: “What was your favorite part?”<br>- Show off their Homarr with all services<br>- Hand out completion certificates<br>- Take a group photo if allowed |
+
