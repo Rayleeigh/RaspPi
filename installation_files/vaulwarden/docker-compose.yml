@@ -11,3 +11,10 @@ services:
       - ./data:/data
     environment:
       WEBSOCKET_ENABLED: "true"
+    networks:
+      lab:
+        ipv4_address: 192.168.100.60
+
+networks:
+  lab:
+    external: true
