@@ -9,6 +9,9 @@ services:
     ports:
       - "11434:11434"
     restart: unless-stopped
+    networks:
+      lab:
+        ipv4_address: 192.168.100.70
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
@@ -20,3 +23,10 @@ services:
     depends_on:
       - ollama
     restart: unless-stopped
+    networks:
+      lab:
+        ipv4_address: 192.168.100.80
+
+networks:
+  lab:
+    external: true
