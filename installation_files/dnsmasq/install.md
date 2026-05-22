@@ -1,6 +1,6 @@
 # Installing Dnsmasq in a Docker Container
 
-Our Dnsmasq container will have *192.168.100.10* as ip address. The initial configuration will be mounted into the container from the host and can be found here: [dnsmasq.config.initial](/installation_files/dnsmasq/config/dnsmasq.conf.initial)
+Our Dnsmasq container will have *192.168.100.10* as ip address. The WebGUI will have *192.168.100.11* and will also be available on the Raspberry Pi at `http://localhost:8080`. The initial configuration will be mounted into the container from the host and can be found here: [dnsmasq.config.initial](/installation_files/dnsmasq/config/dnsmasq.conf.initial)
 
 1. Create Dnsmasq folder and got into it:
    ```bash
@@ -9,18 +9,25 @@ Our Dnsmasq container will have *192.168.100.10* as ip address. The initial conf
    cd $HOME/lab/dnsmasq
    ```
 
-2. Create the docker compose file for our dnsmasq container in $HOME/lab/dnsmasq:
+2. Create the docker compose file for our dnsmasq container and WebGUI in $HOME/lab/dnsmasq:
    [installation_files/dnsmasq/docker-compose.yml](/installation_files/dnsmasq/docker-compose.yml)
 
 3. Create Dnsmasq config file in $HOME/lab/dnsmasq/config:
    [dnsmasq.config template](/installation_files/dnsmasq/config/dnsmasq.conf.initial)
 
-4. Run docker compose command from $HOME/lab/dnsmasq to start the dnsmasq container:
+4. Run docker compose command from $HOME/lab/dnsmasq to start the dnsmasq container and WebGUI:
    ```bash
    docker compose up -d
    ```
 
-5. Adjust local dns config to use dnsmasq
+5. Open the WebGUI:
+   ```bash
+   http://localhost:8080
+   ```
+
+   Every save writes `config/dnsmasq.conf` and restarts the `dnsmasq` container so changes apply immediately.
+
+6. Adjust local dns config to use dnsmasq
    ```bash
    sudo nano /etc/dhcpcd.conf
    ```
@@ -40,7 +47,7 @@ Our Dnsmasq container will have *192.168.100.10* as ip address. The initial conf
    # Custom DNS entries
    ```
 
-6. Reboot
+7. Reboot
    ```bash
    reboot
    ```

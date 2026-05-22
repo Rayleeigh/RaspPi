@@ -6,12 +6,33 @@ services:
     volumes:
       - ./config/dnsmasq.conf:/etc/dnsmasq.conf
     ports:
-      - 53:53
+      - 53:53/tcp
+      - 53:53/udp
     cap_add:
       - NET_ADMIN
     networks:
       private_lab:
         ipv4_address: 192.168.100.10
+
+  webgui:
+    restart: always
+    build:
+      context: ./webui
+    container_name: dnsmasq-webgui
+    environment:
+      DNSMASQ_CONFIG: /data/dnsmasq.conf
+      DNSMASQ_CONTAINER: dnsmasq
+      PORT: 8080
+    volumes:
+      - ./config:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8080:8080
+    depends_on:
+      - dns
+    networks:
+      private_lab:
+        ipv4_address: 192.168.100.11
 
 networks:
   private_lab:

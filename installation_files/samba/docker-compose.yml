@@ -27,7 +27,6 @@ services:
 
     volumes:
       - ./samba_share_data:/external/samba_share_data
-
       - /external/samba_share_data:/shares/schnuppi_share
 
     networks:
