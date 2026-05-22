@@ -28,7 +28,7 @@ Our Dnsmasq container will have *192.168.100.10* as ip address. The WebGUI will 
    http://localhost:8080
    ```
 
-   Every save writes `config/dnsmasq.conf` and restarts the `dnsmasq` container so changes apply immediately.
+   Every save writes `config/dnsmasq.conf` and sends `SIGHUP` to the `dnsmasq` container so changes apply without a full container restart.
 
 6. Adjust the Raspberry Pi DNS settings to use dnsmasq.
 

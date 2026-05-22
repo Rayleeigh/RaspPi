@@ -221,10 +221,10 @@ def start_dnsmasq():
         raise RuntimeError(detail)
 
 
-def restart_dnsmasq():
-    result = run_docker(["restart", CONTAINER_NAME], timeout=30)
+def reload_dnsmasq():
+    result = run_docker(["kill", "--signal", "HUP", CONTAINER_NAME], timeout=30)
     if result.returncode != 0:
-        detail = result.stderr.strip() or result.stdout.strip() or "docker restart failed"
+        detail = result.stderr.strip() or result.stdout.strip() or "docker kill --signal HUP failed"
         raise RuntimeError(detail)
 
 
@@ -319,7 +319,7 @@ def index_html():
   <footer class="action-bar">
     <p id="message" role="status">Changes are written to the mounted dnsmasq config file.</p>
     <button class="btn-secondary is-hidden" type="button" id="start-container">Start dnsmasq</button>
-    <button class="btn-primary" type="button" id="save">Save and restart</button>
+    <button class="btn-primary" type="button" id="save">Save and reload</button>
   </footer>
 
   <dialog class="tutorial-dialog" id="tutorial-dialog" aria-labelledby="tutorial-title">
@@ -424,7 +424,7 @@ class Handler(SimpleHTTPRequestHandler):
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
             data = validate_config(payload)
             write_config(data)
-            restart_dnsmasq()
+            reload_dnsmasq()
             self.send_json({"ok": True, "config": parse_config(), "status": container_status()})
         except (ValueError, json.JSONDecodeError) as exc:
             self.send_json({"ok": False, "error": str(exc), "status": container_status()}, HTTPStatus.BAD_REQUEST)
