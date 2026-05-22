@@ -331,19 +331,56 @@ def index_html():
         </div>
         <button class="icon-button" id="tutorial-close" type="button" aria-label="Close tutorial">x</button>
       </div>
-      <div class="tutorial-body">
-        <section>
-          <h3 data-i18n="tutorialUseTitle">So benutzt du die WebUI</h3>
-          <p data-i18n="tutorialUseText">Prüfe zuerst, ob dnsmasq läuft. Danach kannst du unter DNS entries Namen wie homarr.lab eintragen und auf eine IP-Adresse zeigen lassen. Speichern schreibt die Konfiguration und startet dnsmasq neu, damit die Änderung aktiv wird.</p>
-        </section>
-        <section>
-          <h3 data-i18n="tutorialDnsTitle">Was ist DNS?</h3>
-          <p data-i18n="tutorialDnsText">DNS ist wie ein Telefonbuch für Netzwerke. Dein Browser fragt nach einem Namen wie dns.lab. Der DNS-Server antwortet mit der passenden IP-Adresse, damit dein Gerät weiss, wohin es verbinden soll.</p>
-        </section>
-        <section>
-          <h3 data-i18n="tutorialRecordsTitle">Was sind lokale Einträge?</h3>
-          <p data-i18n="tutorialRecordsText">Lokale Einträge gelten nur in eurem Labornetz. dns.lab zeigt auf den dnsmasq-Container. Weitere Einträge können auf Homarr, Samba, NGINX oder andere Container zeigen.</p>
-        </section>
+      <div class="tutorial-layout">
+        <div class="tutorial-tabs" role="tablist" aria-label="Tutorial topics">
+          <button class="tutorial-tab is-active" type="button" data-topic="use" data-i18n="tutorialUseTitle">WebUI benutzen</button>
+          <button class="tutorial-tab" type="button" data-topic="dns" data-i18n="tutorialDnsTitle">Was ist DNS?</button>
+          <button class="tutorial-tab" type="button" data-topic="records" data-i18n="tutorialRecordsTitle">Lokale Einträge</button>
+          <button class="tutorial-tab" type="button" data-topic="types" data-i18n="tutorialTypesTitle">Record-Typen</button>
+        </div>
+        <div class="tutorial-body">
+          <section class="tutorial-topic is-active" data-topic-panel="use">
+            <p class="kicker" data-i18n="tutorialGuidedKicker">Geführter Ablauf</p>
+            <h3 data-i18n="tutorialUseTitle">WebUI benutzen</h3>
+            <ol>
+              <li data-i18n="tutorialUseStep1">Schau oben rechts auf den Status. Nur wenn dnsmasq läuft, kannst du Einträge ändern.</li>
+              <li data-i18n="tutorialUseStep2">Gehe zu DNS-Einträge. Dort steht ein Name, zum Beispiel homarr.lab, und die IP-Adresse des passenden Containers.</li>
+              <li data-i18n="tutorialUseStep3">Mit Add erstellst du einen neuen Eintrag. Fülle Domain und IP-Adresse aus.</li>
+              <li data-i18n="tutorialUseStep4">Speichern schreibt die Datei und startet dnsmasq neu. Danach können Geräte den neuen Namen benutzen.</li>
+            </ol>
+            <p class="tutorial-note" data-i18n="tutorialUseNote">Wenn du unsicher bist: Ändere nur die DNS-Einträge. Die erweiterten Zeilen sind für Spezialfälle.</p>
+          </section>
+          <section class="tutorial-topic" data-topic-panel="dns">
+            <h3 data-i18n="tutorialDnsTitle">Was ist DNS?</h3>
+            <p data-i18n="tutorialDnsIntro">DNS übersetzt Namen in IP-Adressen. Menschen merken sich Namen wie dns.lab einfacher als Zahlen wie 192.168.100.10.</p>
+            <h4 data-i18n="tutorialWhyDnsTitle">Warum DNS benutzen?</h4>
+            <p data-i18n="tutorialWhyDnsText">Du musst dir keine IP-Adressen merken. Wenn ein Dienst später eine andere IP bekommt, kann der Name gleich bleiben und nur der DNS-Eintrag wird angepasst.</p>
+            <h4 data-i18n="tutorialHowDnsTitle">Wie funktioniert DNS grob?</h4>
+            <p data-i18n="tutorialHowDnsText">Dein Gerät fragt einen DNS-Server nach einem Namen. Der DNS-Server schaut nach, ob er eine passende Antwort kennt. Wenn ja, gibt er die IP-Adresse zurück. Danach verbindet sich dein Gerät mit dieser IP.</p>
+          </section>
+          <section class="tutorial-topic" data-topic-panel="records">
+            <h3 data-i18n="tutorialRecordsTitle">Lokale Einträge</h3>
+            <p data-i18n="tutorialRecordsIntro">Lokale Einträge gelten nur in eurem Labornetz. Sie machen aus einem lokalen Namen wie nginx.lab eine konkrete IP-Adresse.</p>
+            <h4 data-i18n="tutorialWhyRecordsTitle">Warum lokale Einträge benutzen?</h4>
+            <p data-i18n="tutorialWhyRecordsText">Ihr könnt Container mit klaren Namen öffnen, statt IP-Adressen in den Browser zu tippen. Das ist weniger fehleranfällig und einfacher zu erklären.</p>
+            <h4 data-i18n="tutorialRecordExampleTitle">Beispiel</h4>
+            <p data-i18n="tutorialRecordExampleText">dns.lab zeigt auf 192.168.100.10. Wenn ein Gerät dns.lab aufruft, antwortet dnsmasq mit dieser IP-Adresse.</p>
+          </section>
+          <section class="tutorial-topic" data-topic-panel="types">
+            <p class="tutorial-note" data-i18n="tutorialOptionalNote">Optional: Das ist nur für Neugierige. Für diese WebUI musst du das nicht auswendig können.</p>
+            <h3 data-i18n="tutorialTypesTitle">Record-Typen</h3>
+            <dl>
+              <dt data-i18n="recordAName">A-Record</dt>
+              <dd data-i18n="recordAText">Verbindet einen Namen mit einer IPv4-Adresse, zum Beispiel dns.lab mit 192.168.100.10.</dd>
+              <dt data-i18n="recordAAAAName">AAAA-Record</dt>
+              <dd data-i18n="recordAAAAText">Verbindet einen Namen mit einer IPv6-Adresse.</dd>
+              <dt data-i18n="recordCnameName">CNAME-Record</dt>
+              <dd data-i18n="recordCnameText">Macht einen Namen zu einem Alias für einen anderen Namen.</dd>
+              <dt data-i18n="recordMxName">MX-Record</dt>
+              <dd data-i18n="recordMxText">Sagt, welcher Server E-Mails für eine Domain annimmt.</dd>
+            </dl>
+          </section>
+        </div>
       </div>
     </div>
   </dialog>

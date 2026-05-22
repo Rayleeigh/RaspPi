@@ -30,27 +30,23 @@ Our Dnsmasq container will have *192.168.100.10* as ip address. The WebGUI will 
 
    Every save writes `config/dnsmasq.conf` and restarts the `dnsmasq` container so changes apply immediately.
 
-6. Adjust local dns config to use dnsmasq
+6. Adjust the Raspberry Pi DNS settings to use dnsmasq.
+
+   Current Raspberry Pi OS versions use NetworkManager, so configure DNS with `nmcli` instead of editing `dhcpcd.conf`.
+
+   First list the available connections:
    ```bash
-   sudo nano /etc/dhcpcd.conf
+   nmcli connection show
    ```
 
-   Add the following
+   Choose the connection profile for the Vontobel WLAN. It may look like a netplan-generated connection name.
 
+   Set dnsmasq as the DNS server for that connection:
    ```bash
-   # Log DNS queries
-   log-queries
-   # Listen on fixed ip address
-   listen-address=*192.168.100.10*
-   # Configure DNS caching
-   cache-size=1000
-   # Set DNS forwarders to Google DNS servers
-   server=*8.8.8.8*
-   server=*8.8.4.4*
-   # Custom DNS entries
+   nmcli connection modify "<vontobel connection netplan>" ipv4.dns "192.168.100.10"
    ```
 
-7. Reboot
+   Bring the connection back up so the DNS setting is applied:
    ```bash
-   reboot
+   nmcli connection up "<vontobel connection netplan>"
    ```

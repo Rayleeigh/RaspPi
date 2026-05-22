@@ -483,7 +483,7 @@ textarea {
 }
 
 .tutorial-dialog {
-  width: min(calc(100% - 36px), 640px);
+  width: min(calc(100% - 36px), 760px);
   max-height: calc(100vh - 48px);
   padding: 0;
   border: 0;
@@ -501,6 +501,8 @@ textarea {
   border: 0.5px solid var(--line-2);
   border-radius: var(--radius-lg);
   background: var(--surface);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
 }
 
 .tutorial-head {
@@ -511,33 +513,122 @@ textarea {
   margin-bottom: 18px;
 }
 
-.tutorial-body {
+.tutorial-layout {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
-.tutorial-body section {
-  padding: 14px 16px;
+.tutorial-tabs {
+  display: grid;
+  gap: 8px;
+}
+
+.tutorial-tab {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 12px 14px;
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 13px;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+}
+
+.tutorial-tab:hover,
+.tutorial-tab.is-active {
+  background: var(--surface-2);
+  border-color: var(--line-2);
+  color: var(--ink);
+}
+
+.tutorial-tab:active {
+  transform: scale(0.98);
+}
+
+.tutorial-body {
+  min-width: 0;
+}
+
+.tutorial-topic {
+  display: none;
+  padding: 16px 18px;
   border-radius: var(--radius-md);
   background: var(--surface-2);
 }
 
+.tutorial-topic.is-active {
+  display: block;
+}
+
 .tutorial-body h3 {
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   color: var(--ink);
   font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.3px;
 }
 
-.tutorial-body p {
+.tutorial-body h4 {
+  margin: 16px 0 6px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tutorial-body p,
+.tutorial-body li,
+.tutorial-body dd {
   margin: 0;
   color: var(--ink-2);
   font-size: 13px;
   line-height: 1.55;
 }
 
+.tutorial-body ol {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+  padding-left: 22px;
+}
+
+.tutorial-body dl {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+}
+
+.tutorial-body dt {
+  margin-top: 8px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.tutorial-body dd {
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--line);
+}
+
+.tutorial-body dd:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.tutorial-note {
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
 @media (min-width: 720px) {
+  .tutorial-layout {
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: start;
+  }
+
   .panel-heading.split {
     grid-template-columns: minmax(0, 1fr) auto;
   }

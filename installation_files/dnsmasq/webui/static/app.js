@@ -45,12 +45,35 @@ const copy = {
     loadFailed: "Die dnsmasq-Konfiguration konnte nicht geladen werden.",
     tutorialKicker: "Kurzanleitung",
     tutorialTitle: "DNS und diese Weboberfläche",
-    tutorialUseTitle: "So benutzt du die WebUI",
-    tutorialUseText: "Prüfe zuerst, ob dnsmasq läuft. Danach kannst du unter DNS-Einträge Namen wie homarr.lab eintragen und auf eine IP-Adresse zeigen lassen. Speichern schreibt die Konfiguration und startet dnsmasq neu, damit die Änderung aktiv wird.",
+    tutorialUseTitle: "WebUI benutzen",
+    tutorialGuidedKicker: "Geführter Ablauf",
+    tutorialUseStep1: "Schau oben rechts auf den Status. Nur wenn dnsmasq läuft, kannst du Einträge ändern.",
+    tutorialUseStep2: "Gehe zu DNS-Einträge. Dort steht ein Name, zum Beispiel homarr.lab, und die IP-Adresse des passenden Containers.",
+    tutorialUseStep3: "Mit Add erstellst du einen neuen Eintrag. Fülle Domain und IP-Adresse aus.",
+    tutorialUseStep4: "Speichern schreibt die Datei und startet dnsmasq neu. Danach können Geräte den neuen Namen benutzen.",
+    tutorialUseNote: "Wenn du unsicher bist: Ändere nur die DNS-Einträge. Die erweiterten Zeilen sind für Spezialfälle.",
     tutorialDnsTitle: "Was ist DNS?",
-    tutorialDnsText: "DNS ist wie ein Telefonbuch für Netzwerke. Dein Browser fragt nach einem Namen wie dns.lab. Der DNS-Server antwortet mit der passenden IP-Adresse, damit dein Gerät weiss, wohin es verbinden soll.",
+    tutorialDnsIntro: "DNS übersetzt Namen in IP-Adressen. Menschen merken sich Namen wie dns.lab einfacher als Zahlen wie 192.168.100.10.",
+    tutorialWhyDnsTitle: "Warum DNS benutzen?",
+    tutorialWhyDnsText: "Du musst dir keine IP-Adressen merken. Wenn ein Dienst später eine andere IP bekommt, kann der Name gleich bleiben und nur der DNS-Eintrag wird angepasst.",
+    tutorialHowDnsTitle: "Wie funktioniert DNS grob?",
+    tutorialHowDnsText: "Dein Gerät fragt einen DNS-Server nach einem Namen. Der DNS-Server schaut nach, ob er eine passende Antwort kennt. Wenn ja, gibt er die IP-Adresse zurück. Danach verbindet sich dein Gerät mit dieser IP.",
     tutorialRecordsTitle: "Was sind lokale Einträge?",
-    tutorialRecordsText: "Lokale Einträge gelten nur in eurem Labornetz. dns.lab zeigt auf den dnsmasq-Container. Weitere Einträge können auf Homarr, Samba, NGINX oder andere Container zeigen.",
+    tutorialRecordsIntro: "Lokale Einträge gelten nur in eurem Labornetz. Sie machen aus einem lokalen Namen wie nginx.lab eine konkrete IP-Adresse.",
+    tutorialWhyRecordsTitle: "Warum lokale Einträge benutzen?",
+    tutorialWhyRecordsText: "Ihr könnt Container mit klaren Namen öffnen, statt IP-Adressen in den Browser zu tippen. Das ist weniger fehleranfällig und einfacher zu erklären.",
+    tutorialRecordExampleTitle: "Beispiel",
+    tutorialRecordExampleText: "dns.lab zeigt auf 192.168.100.10. Wenn ein Gerät dns.lab aufruft, antwortet dnsmasq mit dieser IP-Adresse.",
+    tutorialTypesTitle: "Record-Typen",
+    tutorialOptionalNote: "Optional: Das ist nur für Neugierige. Für diese WebUI musst du das nicht auswendig können.",
+    recordAName: "A-Record",
+    recordAText: "Verbindet einen Namen mit einer IPv4-Adresse, zum Beispiel dns.lab mit 192.168.100.10.",
+    recordAAAAName: "AAAA-Record",
+    recordAAAAText: "Verbindet einen Namen mit einer IPv6-Adresse.",
+    recordCnameName: "CNAME-Record",
+    recordCnameText: "Macht einen Namen zu einem Alias für einen anderen Namen.",
+    recordMxName: "MX-Record",
+    recordMxText: "Sagt, welcher Server E-Mails für eine Domain annimmt.",
   },
   en: {
     appTitle: "dnsmasq WebGUI",
@@ -91,12 +114,35 @@ const copy = {
     loadFailed: "Could not load dnsmasq config.",
     tutorialKicker: "Quick guide",
     tutorialTitle: "DNS and this web interface",
-    tutorialUseTitle: "How to use the WebUI",
-    tutorialUseText: "First check whether dnsmasq is running. Then add names such as homarr.lab under DNS entries and point them to an IP address. Saving writes the configuration and restarts dnsmasq so the change becomes active.",
+    tutorialUseTitle: "Using the WebUI",
+    tutorialGuidedKicker: "Guided flow",
+    tutorialUseStep1: "Look at the status in the top-right corner. You can only edit records when dnsmasq is running.",
+    tutorialUseStep2: "Go to DNS entries. Each row has a name, such as homarr.lab, and the IP address of the matching container.",
+    tutorialUseStep3: "Use Add to create a new entry. Fill in the domain and IP address.",
+    tutorialUseStep4: "Save writes the file and restarts dnsmasq. After that, devices can use the new name.",
+    tutorialUseNote: "If you are unsure, only change DNS entries. The advanced lines are for special cases.",
     tutorialDnsTitle: "What is DNS?",
-    tutorialDnsText: "DNS is like a phone book for networks. Your browser asks for a name such as dns.lab. The DNS server replies with the matching IP address, so your device knows where to connect.",
+    tutorialDnsIntro: "DNS translates names into IP addresses. Names like dns.lab are easier to remember than numbers like 192.168.100.10.",
+    tutorialWhyDnsTitle: "Why use DNS?",
+    tutorialWhyDnsText: "You do not need to remember IP addresses. If a service later gets a different IP, the name can stay the same and only the DNS record needs to change.",
+    tutorialHowDnsTitle: "How does DNS work at a high level?",
+    tutorialHowDnsText: "Your device asks a DNS server for a name. The DNS server checks whether it knows the answer. If it does, it sends back the IP address. Your device then connects to that IP.",
     tutorialRecordsTitle: "What are local records?",
-    tutorialRecordsText: "Local records only apply inside your lab network. dns.lab points to the dnsmasq container. Other records can point to Homarr, Samba, NGINX, or other containers.",
+    tutorialRecordsIntro: "Local records only apply inside your lab network. They turn a local name like nginx.lab into a concrete IP address.",
+    tutorialWhyRecordsTitle: "Why use local records?",
+    tutorialWhyRecordsText: "You can open containers with clear names instead of typing IP addresses into the browser. That is easier to explain and less error-prone.",
+    tutorialRecordExampleTitle: "Example",
+    tutorialRecordExampleText: "dns.lab points to 192.168.100.10. When a device asks for dns.lab, dnsmasq replies with that IP address.",
+    tutorialTypesTitle: "Record types",
+    tutorialOptionalNote: "Optional: this is only for curious readers. You do not need to memorise this to use the WebUI.",
+    recordAName: "A record",
+    recordAText: "Connects a name to an IPv4 address, for example dns.lab to 192.168.100.10.",
+    recordAAAAName: "AAAA record",
+    recordAAAAText: "Connects a name to an IPv6 address.",
+    recordCnameName: "CNAME record",
+    recordCnameText: "Makes one name an alias for another name.",
+    recordMxName: "MX record",
+    recordMxText: "Tells DNS which server accepts email for a domain.",
   },
 };
 
@@ -269,6 +315,17 @@ function applyLanguage() {
   applyContainerState(state.containerStatus);
 }
 
+function selectTutorialTopic(topic) {
+  document.querySelectorAll(".tutorial-tab").forEach((button) => {
+    const active = button.dataset.topic === topic;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  document.querySelectorAll(".tutorial-topic").forEach((panel) => {
+    panel.classList.toggle("is-active", panel.dataset.topicPanel === topic);
+  });
+}
+
 async function loadConfig() {
   setStatus("loading");
   const response = await fetch("/api/config");
@@ -368,6 +425,7 @@ document.querySelectorAll(".lang-button").forEach((button) => {
 });
 
 document.querySelector("#tutorial-open").addEventListener("click", () => {
+  selectTutorialTopic("use");
   if (typeof tutorialDialog.showModal === "function") {
     tutorialDialog.showModal();
   } else {
@@ -383,6 +441,12 @@ tutorialDialog.addEventListener("click", (event) => {
   if (event.target === tutorialDialog) {
     tutorialDialog.close();
   }
+});
+
+document.querySelectorAll(".tutorial-tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    selectTutorialTopic(button.dataset.topic);
+  });
 });
 
 saveButton.addEventListener("click", saveConfig);
