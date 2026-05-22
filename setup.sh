@@ -54,7 +54,7 @@ sudo mv ~/lab/dnsmasq/config/dnsmasq.conf.final ~/lab/dnsmasq/config/dnsmasq.con
 echo "Pulling necessary Docker images..."
 sudo docker pull ghcr.io/ajnart/homarr:0.15.10
 sudo docker pull jasjeev4/rpi-dnsmasq:latest
-sudo docker pull python:3.12-alpine
+sudo docker pull ghcr.io/rayleeigh/rasppi-dnsmasq-webgui:latest
 sudo docker pull nginx:1.27.4
 sudo docker pull ghcr.io/servercontainers/samba:latest
 sudo docker pull openspeedtest/latest:v2.0.6

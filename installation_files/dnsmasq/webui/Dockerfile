@@ -1,5 +1,9 @@
 FROM python:3.12-alpine
 
+LABEL org.opencontainers.image.source="https://github.com/Rayleeigh/RaspPi"
+LABEL org.opencontainers.image.description="Small WebGUI for editing dnsmasq lab records"
+LABEL org.opencontainers.image.licenses="MIT"
+
 RUN apk add --no-cache docker-cli
 
 WORKDIR /app

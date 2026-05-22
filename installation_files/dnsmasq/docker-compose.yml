@@ -16,8 +16,7 @@ services:
 
   webgui:
     restart: always
-    build:
-      context: ./webui
+    image: ghcr.io/rayleeigh/rasppi-dnsmasq-webgui:latest
     container_name: dnsmasq-webgui
     environment:
       DNSMASQ_CONFIG: /data/dnsmasq.conf

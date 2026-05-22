@@ -1,4 +1,3 @@
-import html
 import ipaddress
 import json
 import os
@@ -11,7 +10,6 @@ from pathlib import Path
 
 
 APP_DIR = Path(__file__).resolve().parent
-CONFIG_PATH = Path(os.environ.get("DNSMASQ_CONFIG", "/data/dnsmasq.conf"))
 CONTAINER_NAME = os.environ.get("DNSMASQ_CONTAINER", "dnsmasq")
 PORT = int(os.environ.get("PORT", "8080"))
 
@@ -19,6 +17,28 @@ DOMAIN_RE = re.compile(
     r"^(?=.{1,253}$)([A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*"
     r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
 )
+
+
+def resolve_config_path():
+    configured_path = os.environ.get("DNSMASQ_CONFIG")
+    if configured_path:
+        return Path(configured_path)
+
+    candidates = [
+        Path("/data/dnsmasq.conf"),
+        APP_DIR.parent / "config" / "dnsmasq.conf",
+        APP_DIR / "config" / "dnsmasq.conf",
+        Path.cwd() / "config" / "dnsmasq.conf",
+    ]
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    return candidates[0]
+
+
+CONFIG_PATH = resolve_config_path()
 
 
 def parse_config():
@@ -163,14 +183,46 @@ def write_config(data):
     tmp_path.replace(CONFIG_PATH)
 
 
-def restart_dnsmasq():
-    result = subprocess.run(
-        ["docker", "restart", CONTAINER_NAME],
+def run_docker(args, timeout=10):
+    return subprocess.run(
+        ["docker", *args],
         check=False,
         capture_output=True,
         text=True,
-        timeout=30,
+        timeout=timeout,
     )
+
+
+def container_status():
+    try:
+        result = run_docker(["inspect", "-f", "{{.State.Status}}", CONTAINER_NAME])
+    except (FileNotFoundError, subprocess.SubprocessError, subprocess.TimeoutExpired) as exc:
+        return {"status": "not_available", "detail": str(exc)}
+
+    if result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip() or "container not found"
+        return {"status": "not_available", "detail": detail}
+
+    raw_status = result.stdout.strip().lower()
+    if raw_status == "running":
+        return {"status": "running", "detail": "container is running"}
+    if raw_status == "restarting":
+        return {"status": "restarting", "detail": "container is restarting"}
+    if raw_status in {"created", "exited", "dead", "paused"}:
+        return {"status": "stopped", "detail": f"container is {raw_status}"}
+
+    return {"status": "not_available", "detail": f"unknown container state: {raw_status}"}
+
+
+def start_dnsmasq():
+    result = run_docker(["start", CONTAINER_NAME], timeout=30)
+    if result.returncode != 0:
+        detail = result.stderr.strip() or result.stdout.strip() or "docker start failed"
+        raise RuntimeError(detail)
+
+
+def restart_dnsmasq():
+    result = run_docker(["restart", CONTAINER_NAME], timeout=30)
     if result.returncode != 0:
         detail = result.stderr.strip() or result.stdout.strip() or "docker restart failed"
         raise RuntimeError(detail)
@@ -178,7 +230,7 @@ def restart_dnsmasq():
 
 def index_html():
     return f"""<!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -195,7 +247,14 @@ def index_html():
           <h1>dnsmasq web gui</h1>
         </div>
       </div>
-      <div class="status-pill" id="status-pill">Loading</div>
+      <div class="top-actions">
+        <div class="language-switch" aria-label="Language">
+          <button class="lang-button is-active" type="button" data-lang="de">DE</button>
+          <button class="lang-button" type="button" data-lang="en">EN</button>
+        </div>
+        <button class="info-button" id="tutorial-open" type="button" aria-label="Tutorial">🛈</button>
+        <div class="status-pill" id="status-pill">Lädt</div>
+      </div>
     </nav>
   </header>
 
@@ -258,9 +317,36 @@ def index_html():
   </main>
 
   <footer class="action-bar">
-    <p id="message" role="status">Changes are written to {html.escape(str(CONFIG_PATH))}.</p>
+    <p id="message" role="status">Changes are written to the mounted dnsmasq config file.</p>
+    <button class="btn-secondary is-hidden" type="button" id="start-container">Start dnsmasq</button>
     <button class="btn-primary" type="button" id="save">Save and restart</button>
   </footer>
+
+  <dialog class="tutorial-dialog" id="tutorial-dialog" aria-labelledby="tutorial-title">
+    <div class="tutorial-card">
+      <div class="tutorial-head">
+        <div>
+          <p class="kicker" data-i18n="tutorialKicker">Kurzanleitung</p>
+          <h2 id="tutorial-title" data-i18n="tutorialTitle">DNS und diese Weboberfläche</h2>
+        </div>
+        <button class="icon-button" id="tutorial-close" type="button" aria-label="Close tutorial">x</button>
+      </div>
+      <div class="tutorial-body">
+        <section>
+          <h3 data-i18n="tutorialUseTitle">So benutzt du die WebUI</h3>
+          <p data-i18n="tutorialUseText">Prüfe zuerst, ob dnsmasq läuft. Danach kannst du unter DNS entries Namen wie homarr.lab eintragen und auf eine IP-Adresse zeigen lassen. Speichern schreibt die Konfiguration und startet dnsmasq neu, damit die Änderung aktiv wird.</p>
+        </section>
+        <section>
+          <h3 data-i18n="tutorialDnsTitle">Was ist DNS?</h3>
+          <p data-i18n="tutorialDnsText">DNS ist wie ein Telefonbuch für Netzwerke. Dein Browser fragt nach einem Namen wie dns.lab. Der DNS-Server antwortet mit der passenden IP-Adresse, damit dein Gerät weiss, wohin es verbinden soll.</p>
+        </section>
+        <section>
+          <h3 data-i18n="tutorialRecordsTitle">Was sind lokale Einträge?</h3>
+          <p data-i18n="tutorialRecordsText">Lokale Einträge gelten nur in eurem Labornetz. dns.lab zeigt auf den dnsmasq-Container. Weitere Einträge können auf Homarr, Samba, NGINX oder andere Container zeigen.</p>
+        </section>
+      </div>
+    </div>
+  </dialog>
 
   <script src="/static/app.js"></script>
 </body>
@@ -278,9 +364,20 @@ class Handler(SimpleHTTPRequestHandler):
         if self.path == "/api/config":
             self.send_json(parse_config())
             return
+        if self.path == "/api/status":
+            self.send_json(container_status())
+            return
         super().do_GET()
 
     def do_POST(self):
+        if self.path == "/api/container/start":
+            try:
+                start_dnsmasq()
+                self.send_json({"ok": True, "status": container_status()})
+            except Exception as exc:
+                self.send_json({"ok": False, "error": str(exc), "status": container_status()}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            return
+
         if self.path != "/api/config":
             self.send_error(HTTPStatus.NOT_FOUND)
             return
@@ -291,11 +388,11 @@ class Handler(SimpleHTTPRequestHandler):
             data = validate_config(payload)
             write_config(data)
             restart_dnsmasq()
-            self.send_json({"ok": True, "config": parse_config()})
+            self.send_json({"ok": True, "config": parse_config(), "status": container_status()})
         except (ValueError, json.JSONDecodeError) as exc:
-            self.send_json({"ok": False, "error": str(exc)}, HTTPStatus.BAD_REQUEST)
+            self.send_json({"ok": False, "error": str(exc), "status": container_status()}, HTTPStatus.BAD_REQUEST)
         except Exception as exc:
-            self.send_json({"ok": False, "error": str(exc)}, HTTPStatus.INTERNAL_SERVER_ERROR)
+            self.send_json({"ok": False, "error": str(exc), "status": container_status()}, HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def send_text(self, body, content_type="text/plain", status=HTTPStatus.OK):
         encoded = body.encode("utf-8")
