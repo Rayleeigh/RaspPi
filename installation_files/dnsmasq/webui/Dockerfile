@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.source="https://github.com/Rayleeigh/RaspPi"
 LABEL org.opencontainers.image.description="Small WebGUI for editing dnsmasq lab records"
 LABEL org.opencontainers.image.licenses="MIT"
 
-RUN apk add --no-cache docker-cli
+RUN apk add --no-cache docker-cli bind-tools
 
 WORKDIR /app
 COPY server.py /app/server.py

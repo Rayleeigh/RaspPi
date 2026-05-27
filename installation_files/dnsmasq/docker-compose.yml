@@ -1,10 +1,11 @@
 services:
   dns:
     restart: always
-    image: jasjeev4/rpi-dnsmasq:latest
+    image: strm/dnsmasq:latest
     container_name: dnsmasq
     volumes:
       - ./config/dnsmasq.conf:/etc/dnsmasq.conf
+      - ./config/hosts:/etc/dnsmasq.hosts
     ports:
       - 53:53/tcp
       - 53:53/udp
@@ -20,7 +21,10 @@ services:
     container_name: dnsmasq-webgui
     environment:
       DNSMASQ_CONFIG: /data/dnsmasq.conf
+      DNSMASQ_HOSTS: /data/hosts
+      DNSMASQ_HOSTS_TARGET: /etc/dnsmasq.hosts
       DNSMASQ_CONTAINER: dnsmasq
+      DOCKER_NETWORK: private_lab
       PORT: 8080
     volumes:
       - ./config:/data
@@ -32,6 +36,18 @@ services:
     networks:
       private_lab:
         ipv4_address: 192.168.100.11
+
+  control-client:
+    build:
+      context: ./control-client
+    container_name: dnsmasq-control-client
+    dns:
+      - 192.168.100.10
+    depends_on:
+      - dns
+    networks:
+      private_lab:
+        ipv4_address: 192.168.100.12
 
 networks:
   private_lab:

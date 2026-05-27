@@ -3,12 +3,17 @@ const state = {
   servers: [],
   entries: [],
   containerStatus: "not_available",
+  lastSavedSnapshot: "",
+  isSaving: false,
 };
 
 const copy = {
   de: {
     appTitle: "dnsmasq WebGUI",
     statusRunning: "Läuft",
+    statusHealthy: "Healthy",
+    statusUnhealthy: "Unhealthy",
+    statusKilled: "Killed",
     statusStopped: "Gestoppt",
     statusRestarting: "Lädt neu",
     statusNotAvailable: "Nicht verfügbar",
@@ -27,6 +32,10 @@ const copy = {
     dnsEntries: "DNS-Einträge",
     add: "Add",
     addDnsEntry: "DNS-Eintrag hinzufügen",
+    entryStatus: "Status",
+    dnsStatus: "DNS",
+    containerStatus: "Container",
+    pingStatus: "Ping",
     domain: "Domain",
     ipAddress: "IP-Adresse",
     advanced: "Erweitert",
@@ -40,6 +49,7 @@ const copy = {
     restarting: "dnsmasq lädt die Konfiguration neu. Die Konfiguration ist kurz gesperrt.",
     saving: "Konfiguration wird gespeichert und dnsmasq lädt neu...",
     saved: "Gespeichert. dnsmasq hat die Konfiguration neu geladen.",
+    autoSaved: "Automatisch gespeichert. dnsmasq hat die Konfiguration neu geladen.",
     startFailed: "dnsmasq konnte nicht gestartet werden.",
     saveFailed: "Speichern fehlgeschlagen.",
     loadFailed: "Die dnsmasq-Konfiguration konnte nicht geladen werden.",
@@ -78,6 +88,9 @@ const copy = {
   en: {
     appTitle: "dnsmasq WebGUI",
     statusRunning: "Running",
+    statusHealthy: "Healthy",
+    statusUnhealthy: "Unhealthy",
+    statusKilled: "Killed",
     statusStopped: "Stopped",
     statusRestarting: "Reloading",
     statusNotAvailable: "Not available",
@@ -96,6 +109,10 @@ const copy = {
     dnsEntries: "DNS entries",
     add: "Add",
     addDnsEntry: "Add DNS entry",
+    entryStatus: "Status",
+    dnsStatus: "DNS",
+    containerStatus: "Container",
+    pingStatus: "Ping",
     domain: "Domain",
     ipAddress: "IP address",
     advanced: "Advanced",
@@ -109,6 +126,7 @@ const copy = {
     restarting: "dnsmasq is reloading its configuration. Configuration is locked briefly.",
     saving: "Saving config and reloading dnsmasq...",
     saved: "Saved. dnsmasq reloaded its configuration.",
+    autoSaved: "Saved automatically. dnsmasq reloaded its configuration.",
     startFailed: "Could not start dnsmasq.",
     saveFailed: "Save failed.",
     loadFailed: "Could not load dnsmasq config.",
@@ -176,6 +194,9 @@ function setStatus(status) {
   state.containerStatus = status;
   const labels = {
     running: t("statusRunning"),
+    healthy: t("statusHealthy"),
+    unhealthy: t("statusUnhealthy"),
+    killed: t("statusKilled"),
     stopped: t("statusStopped"),
     restarting: t("statusRestarting"),
     not_available: t("statusNotAvailable"),
@@ -200,6 +221,15 @@ function field(name, value, label) {
   `;
 }
 
+function entryField(name, value, label) {
+  return `
+    <label class="inline-field" for="${name}">
+      <span>${escapeHtml(label)}</span>
+      <input class="dns-entry-input" id="${name}" value="${escapeHtml(value)}" autocomplete="off" placeholder="${escapeHtml(label)}">
+    </label>
+  `;
+}
+
 function renderServers() {
   serversList.innerHTML = state.servers
     .map((server, index) => `
@@ -215,12 +245,27 @@ function renderEntries() {
   entriesList.innerHTML = state.entries
     .map((entry, index) => `
       <div class="entry-row">
-        ${field(`domain-${index}`, entry.domain, t("domain"))}
-        ${field(`ip-${index}`, entry.ip, t("ipAddress"))}
+        ${entryField(`domain-${index}`, entry.domain, t("domain"))}
+        ${entryField(`ip-${index}`, entry.ip, t("ipAddress"))}
+        <div class="record-status" id="entry-status-${index}">
+          <div class="status-column dns-status" data-state="checking">
+            <span>${t("dnsStatus")}</span>
+            <strong>N/A</strong>
+          </div>
+          <div class="status-column container-status" data-state="checking">
+            <span>${t("containerStatus")}</span>
+            <strong>N/A</strong>
+          </div>
+          <div class="status-column ping-status" data-state="checking">
+            <span>${t("pingStatus")}</span>
+            <strong>N/A</strong>
+          </div>
+        </div>
         <button class="icon-button" type="button" data-remove-entry="${index}" aria-label="Remove entry">x</button>
       </div>
     `)
     .join("");
+  checkEntryStatuses();
 }
 
 function collect() {
@@ -240,6 +285,10 @@ function collect() {
   };
 }
 
+function snapshot(payload = collect()) {
+  return JSON.stringify(payload);
+}
+
 function hydrate(config) {
   listenAddress.value = config.listenAddress;
   cacheSize.value = config.cacheSize;
@@ -249,6 +298,7 @@ function hydrate(config) {
   state.entries = config.entries;
   renderServers();
   renderEntries();
+  state.lastSavedSnapshot = snapshot();
 }
 
 function setDisabled(disabled) {
@@ -261,11 +311,31 @@ function setDisabled(disabled) {
   });
 }
 
+function containerStatusLabel(status) {
+  const labels = {
+    healthy: t("statusHealthy"),
+    unhealthy: t("statusUnhealthy"),
+    killed: t("statusKilled"),
+    stopped: t("statusStopped"),
+    restarting: t("statusRestarting"),
+    not_available: t("statusNotAvailable"),
+    loading: t("statusLoading"),
+    saving: t("statusSaving"),
+    running: t("statusRunning"),
+  };
+  return labels[status] ?? status;
+}
+
+function recordStatusLabel(status) {
+  if (status === "not_available") return "N/A";
+  return containerStatusLabel(status);
+}
+
 function applyContainerState(status) {
   setStatus(status);
-  startButton.classList.toggle("is-hidden", status !== "stopped");
+  startButton.classList.toggle("is-hidden", !["stopped", "killed"].includes(status));
 
-  if (status === "running") {
+  if (status === "healthy" || status === "running") {
     setDisabled(false);
     setMessage(t("configNote"));
     return;
@@ -349,27 +419,87 @@ async function refreshStatus() {
   }
 }
 
-async function saveConfig() {
+async function saveConfig(options = {}) {
+  if (state.isSaving) return;
+  state.isSaving = true;
   setStatus("restarting");
   setDisabled(true);
   setMessage(t("saving"), "loading");
 
-  const response = await fetch("/api/config", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(collect()),
-  });
-  const payload = await response.json();
+  let response;
+  let payload;
+  try {
+    response = await fetch("/api/config", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(collect()),
+    });
+    payload = await response.json();
+  } catch (error) {
+    await refreshStatus();
+    setMessage(error.message || t("saveFailed"), "error");
+    state.isSaving = false;
+    return;
+  }
 
   if (!response.ok || !payload.ok) {
     applyContainerState(payload.status?.status ?? "not_available");
     setMessage(payload.error || t("saveFailed"), "error");
+    state.isSaving = false;
     return;
   }
 
   hydrate(payload.config);
-  applyContainerState(payload.status?.status ?? "running");
-  setMessage(t("saved"), "ready");
+  applyContainerState(payload.status?.status ?? "healthy");
+  state.lastSavedSnapshot = snapshot();
+  setMessage(options.auto ? t("autoSaved") : t("saved"), "ready");
+  checkEntryStatuses();
+  state.isSaving = false;
+}
+
+async function autoSaveDnsEntries() {
+  if (!["healthy", "running"].includes(state.containerStatus)) return;
+  if (state.entries.some((entry) => Boolean(entry.domain) !== Boolean(entry.ip))) return;
+  const currentSnapshot = snapshot();
+  if (currentSnapshot === state.lastSavedSnapshot) return;
+  await saveConfig({ auto: true });
+}
+
+async function checkEntryStatuses() {
+  if (!entriesList.children.length) return;
+  const entries = state.entries.map((entry) => ({ ...entry }));
+  await Promise.all(entries.map(async (entry, index) => {
+    const badge = document.querySelector(`#entry-status-${index}`);
+    if (!badge || !entry.domain || !entry.ip) return;
+    const dnsBadge = badge.querySelector(".dns-status");
+    dnsBadge.dataset.state = "checking";
+    dnsBadge.querySelector("strong").textContent = "N/A";
+    try {
+      const params = new URLSearchParams({ domain: entry.domain, ip: entry.ip });
+      const response = await fetch(`/api/resolve?${params.toString()}`);
+      const payload = await response.json();
+      const containerBadge = badge.querySelector(".container-status");
+      const pingBadge = badge.querySelector(".ping-status");
+      const containerState = payload.container?.status ?? state.containerStatus;
+      const pingState = payload.ping?.status === "OK" ? "ok" : "na";
+      dnsBadge.dataset.state = payload.dns === "OK" || payload.status === "OK" ? "ok" : "na";
+      dnsBadge.querySelector("strong").textContent = payload.dns === "OK" || payload.status === "OK" ? "OK" : "N/A";
+      containerBadge.dataset.state = containerState;
+      containerBadge.querySelector("strong").textContent = recordStatusLabel(containerState);
+      containerBadge.title = [payload.container?.name, payload.container?.detail].filter(Boolean).join(": ");
+      pingBadge.dataset.state = pingState;
+      pingBadge.querySelector("strong").textContent = payload.ping?.status === "OK" ? "OK" : "N/A";
+      pingBadge.title = payload.ping?.detail || "";
+      badge.title = payload.detail || "";
+    } catch {
+      const dnsBadge = badge.querySelector(".dns-status");
+      const pingBadge = badge.querySelector(".ping-status");
+      dnsBadge.dataset.state = "na";
+      dnsBadge.querySelector("strong").textContent = "N/A";
+      pingBadge.dataset.state = "na";
+      pingBadge.querySelector("strong").textContent = "N/A";
+    }
+  }));
 }
 
 async function startContainer() {
@@ -386,7 +516,7 @@ async function startContainer() {
     return;
   }
 
-  applyContainerState(payload.status?.status ?? "running");
+  applyContainerState(payload.status?.status ?? "healthy");
 }
 
 addServerButton.addEventListener("click", () => {
@@ -415,6 +545,12 @@ entriesList.addEventListener("click", (event) => {
   collect();
   state.entries.splice(Number(button.dataset.removeEntry), 1);
   renderEntries();
+});
+
+entriesList.addEventListener("focusout", (event) => {
+  if (!event.target.matches(".dns-entry-input")) return;
+  collect();
+  autoSaveDnsEntries();
 });
 
 document.querySelectorAll(".lang-button").forEach((button) => {

@@ -4,8 +4,9 @@ log-queries
 listen-address=192.168.100.10
 # Configure DNS caching
 cache-size=1000
+# Read local DNS entries from the managed hosts file
+addn-hosts=/etc/dnsmasq.hosts
 # Set DNS forwarders to Google DNS servers
 server=8.8.8.8
 server=8.8.4.4
 # Custom DNS entries
-address=/dns.lab/192.168.100.10
