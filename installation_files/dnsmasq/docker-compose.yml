@@ -1,7 +1,7 @@
 services:
   dns:
     restart: always
-    image: strm/dnsmasq:latest
+    image: jasjeev4/rpi-dnsmasq:latest # strm/dnsmasq:latest for developing on windows 
     container_name: dnsmasq
     volumes:
       - ./config/dnsmasq.conf:/etc/dnsmasq.conf
